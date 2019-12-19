@@ -1,19 +1,45 @@
 package com.bettorleague.authentication.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
+import java.util.*;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "users")
 public class User implements UserDetails {
 
     @Id
+    private String id;
+
+    @Indexed(unique = true)
     private String username;
 
     private String password;
+
+    private boolean activated = true;
+
+    private String activationKey;
+
+    private String resetPasswordKey;
+
+    private Set<Authorities> authorities = Set.of(Authorities.ROLE_USER);
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public String getPassword() {
@@ -27,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public List<GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>(authorities);
     }
 
     public void setUsername(String username) {
@@ -55,7 +81,48 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return activated;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetPasswordKey() {
+        return resetPasswordKey;
+    }
+
+    public void setResetPasswordKey(String resetPasswordKey) {
+        this.resetPasswordKey = resetPasswordKey;
+    }
+
+    public void setAuthorities(Set<Authorities> authorities) {
+        this.authorities = authorities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

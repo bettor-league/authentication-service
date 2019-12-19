@@ -3,7 +3,6 @@ package com.bettorleague.authentication.rest;
 
 import com.bettorleague.authentication.domain.User;
 import com.bettorleague.authentication.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
