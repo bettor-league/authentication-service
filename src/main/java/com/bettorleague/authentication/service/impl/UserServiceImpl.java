@@ -1,5 +1,6 @@
 package com.bettorleague.authentication.service.impl;
 
+import com.bettorleague.authentication.domain.Authorities;
 import com.bettorleague.authentication.domain.User;
 import com.bettorleague.authentication.repository.UserRepository;
 import com.bettorleague.authentication.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -33,8 +35,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         });
 
         String hash = passwordEncoder.encode(user.getPassword());
-
         user.setPassword(hash);
+        user.setActivated(true);
+        user.setAuthorities(Set.of(Authorities.ROLE_USER));
 
         user = userRepository.save(user);
 
