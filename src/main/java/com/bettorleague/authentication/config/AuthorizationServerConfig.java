@@ -1,8 +1,10 @@
 package com.bettorleague.authentication.config;
 
+import com.bettorleague.authentication.domain.AdminCredential;
 import com.bettorleague.authentication.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -23,11 +25,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private final AuthenticationManager authenticationManager;
 
-    private @Value("${bettorleague.oauth2.client.ui.client-id}") String uiClientId;
-    private @Value("${bettorleague.oauth2.client.ui.client-secret}") String uiClientSecret;
+    private @Value("${bettorleague.oauth2.client.ui.client-id:#{null}}") String uiClientId;
+    private @Value("${bettorleague.oauth2.client.ui.client-secret:#{null}}") String uiClientSecret;
 
-    private @Value("${bettorleague.oauth2.client.server.client-id}") String serverClientId;
-    private @Value("${bettorleague.oauth2.client.server.client-secret}") String serverClientSecret;
+    private @Value("${bettorleague.oauth2.client.server.client-id:#{null}}") String serverClientId;
+    private @Value("${bettorleague.oauth2.client.server.client-secret:#{null}}") String serverClientSecret;
 
     public AuthorizationServerConfig(UserServiceImpl userService,
                                      AuthenticationManager authenticationManager){
@@ -68,5 +70,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowFormAuthenticationForClients();
     }
 
-
+    @Bean
+    AdminCredential adminCredential(@Value("${bettorleague.admin.username:#{null}}") String username,
+                                    @Value("${bettorleague.admin.password:#{null}}") String password){
+        return new AdminCredential(username,password);
+    }
 }
