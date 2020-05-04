@@ -1,8 +1,8 @@
 package com.bettorleague.authentication.config;
 
 import com.bettorleague.authentication.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -16,16 +16,20 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 @Configuration
 @EnableAuthorizationServer
-public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
-    private final TokenStore tokenStore = new InMemoryTokenStore();
+public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     private final String NOOP_PASSWORD_ENCODE = "{noop}";
+    private final TokenStore tokenStore = new InMemoryTokenStore();
     private final UserServiceImpl userService;
-
-    @Autowired
     @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    public OAuth2AuthorizationConfig(UserServiceImpl userService,
+    private @Value("${bettorleague.oauth2.client.ui.client-id}") String uiClientId;
+    private @Value("${bettorleague.oauth2.client.ui.client-secret}") String uiClientSecret;
+
+    private @Value("${bettorleague.oauth2.client.server.client-id}") String serverClientId;
+    private @Value("${bettorleague.oauth2.client.server.client-secret}") String serverClientSecret;
+
+    public AuthorizationServerConfig(UserServiceImpl userService,
                                      AuthenticationManager authenticationManager){
         this.userService = userService;
         this.authenticationManager = authenticationManager;
@@ -35,13 +39,13 @@ public class OAuth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // @formatter:off
         clients.inMemory()
-                .withClient("bettor-league-ui")
+                .withClient(uiClientId)
                 .authorizedGrantTypes("refresh_token", "password")
-                .secret("BETTOR_LEAGUE_CLIENT_PASSWORD")
+                .secret(uiClientSecret)
                 .scopes("ui")
                 .and()
-                .withClient("bettor-league-server")
-                .secret("BETTOR_LEAGUE_SERVER_PASSWORD")
+                .withClient(serverClientId)
+                .secret(serverClientSecret)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("server");
         // @formatter:on

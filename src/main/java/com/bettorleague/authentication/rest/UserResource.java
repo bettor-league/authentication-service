@@ -25,9 +25,4 @@ public class UserResource {
         return userService.create(user);
     }
 
-    @GetMapping(value = "/current")
-    public Principal getUser(Principal principal) {
-        return principal;
-    }
-
 }
