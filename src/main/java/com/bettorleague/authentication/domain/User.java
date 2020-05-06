@@ -2,26 +2,33 @@ package com.bettorleague.authentication.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import javax.validation.constraints.Email;
 import java.util.*;
 
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, OAuth2User {
 
     @Id
     private String id;
 
+    @Email
     @Indexed(unique = true)
-    private String username;
+    private String email;
 
     private String password;
 
@@ -33,13 +40,7 @@ public class User implements UserDetails {
 
     private Set<Authorities> authorities = Set.of(Authorities.ROLE_USER);
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Map<String, Object> attributes;
 
     @Override
     public String getPassword() {
@@ -47,21 +48,18 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String getName() {
+        return email;
+    }
+
+    @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
     public List<GrantedAuthority> getAuthorities() {
         return new ArrayList<>(authorities);
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -80,36 +78,14 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return activated;
     }
 
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    public String getActivationKey() {
-        return activationKey;
-    }
-
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
-    }
-
-    public String getResetPasswordKey() {
-        return resetPasswordKey;
-    }
-
-    public void setResetPasswordKey(String resetPasswordKey) {
-        this.resetPasswordKey = resetPasswordKey;
-    }
-
-    public void setAuthorities(Set<Authorities> authorities) {
-        this.authorities = authorities;
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     @Override

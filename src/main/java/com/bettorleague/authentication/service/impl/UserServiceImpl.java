@@ -5,6 +5,8 @@ import com.bettorleague.authentication.domain.User;
 import com.bettorleague.authentication.repository.UserRepository;
 import com.bettorleague.authentication.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,13 +30,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        Optional<User> userOptional = userRepository.findById(user.getUsername());
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
 
         userOptional.ifPresent(it-> {
-            throw new IllegalArgumentException("User already exists: " + it.getUsername());
+            throw new IllegalArgumentException("User already exists: " + it.getEmail());
         });
 
         String hash = passwordEncoder.encode(user.getPassword());
+
         user.setPassword(hash);
         user.setActivated(true);
         user.setAuthorities(Set.of(Authorities.ROLE_USER));
@@ -47,9 +50,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email " + email + " not found"));
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email){
+        return this.userRepository.findByEmail(email);
+    }
+
+
+    @Override
+    public Page<User> findAll(Pageable pageable){
+        return this.userRepository.findAll(pageable);
     }
 
 }

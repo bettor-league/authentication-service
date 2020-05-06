@@ -21,7 +21,7 @@ public class InitialAuthDataChangeLog {
                               EnvSecret envSecret) {
 
         User admin = User.builder()
-                .username(Optional.ofNullable(envSecret.getAdminPassword()).orElse("test"))
+                .email(Optional.ofNullable(envSecret.getAdminUsername()).orElse("test@test"))
                 .password(passwordEncoder.encode(Optional.ofNullable(envSecret.getAdminPassword()).orElse("test")))
                 .activated(true)
                 .authorities(Set.of(Authorities.ROLE_USER, Authorities.ROLE_ADMIN))
