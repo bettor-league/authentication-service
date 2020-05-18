@@ -1,15 +1,17 @@
 package com.bettorleague.authentication.domain;
 
+import com.bettorleague.microservice.model.audit.AuditedEntity;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.data.annotation.Id;
+
 import java.util.*;
 
 @Data
 @Document(collection = "clients")
-public class Client implements ClientDetails {
+public class Client extends AuditedEntity implements ClientDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -96,45 +98,5 @@ public class Client implements ClientDetails {
     @Override
     public Map<String, Object> getAdditionalInformation() {
         return null;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
-
-    public void setGrantTypes(String grantTypes) {
-        this.grantTypes = grantTypes;
-    }
-
-    public void setScopes(String scopes) {
-        this.scopes = scopes;
-    }
-
-    public void setResources(String resources) {
-        this.resources = resources;
-    }
-
-    public void setRedirectUris(String redirectUris) {
-        this.redirectUris = redirectUris;
-    }
-
-    public void setAccessTokenValidity(Integer accessTokenValidity) {
-        this.accessTokenValidity = accessTokenValidity;
-    }
-
-    public void setRefreshTokenValidity(Integer refreshTokenValidity) {
-        this.refreshTokenValidity = refreshTokenValidity;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
     }
 }

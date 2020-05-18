@@ -1,7 +1,10 @@
 package com.bettorleague.authentication.domain;
 
+import com.bettorleague.microservice.model.audit.AuditedEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -9,37 +12,42 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "users")
-public class User implements UserDetails {
+public class User extends AuditedEntity implements UserDetails {
 
     @Id
     private String id;
 
+    @Email
+    @Indexed(unique = true)
+    private String email;
+
     @Indexed(unique = true)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     private boolean activated = true;
 
+    @JsonIgnore
     private String activationKey;
 
+    @JsonIgnore
     private String resetPasswordKey;
 
     private Set<Authorities> authorities = Set.of(Authorities.ROLE_USER);
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Override
     public String getPassword() {
@@ -54,14 +62,6 @@ public class User implements UserDetails {
     @Override
     public List<GrantedAuthority> getAuthorities() {
         return new ArrayList<>(authorities);
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -80,36 +80,9 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return activated;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
-    public String getActivationKey() {
-        return activationKey;
-    }
-
-    public void setActivationKey(String activationKey) {
-        this.activationKey = activationKey;
-    }
-
-    public String getResetPasswordKey() {
-        return resetPasswordKey;
-    }
-
-    public void setResetPasswordKey(String resetPasswordKey) {
-        this.resetPasswordKey = resetPasswordKey;
-    }
-
-    public void setAuthorities(Set<Authorities> authorities) {
-        this.authorities = authorities;
     }
 
     @Override

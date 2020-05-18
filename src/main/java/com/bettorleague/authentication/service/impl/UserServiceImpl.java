@@ -4,9 +4,12 @@ import com.bettorleague.authentication.domain.Authorities;
 import com.bettorleague.authentication.domain.User;
 import com.bettorleague.authentication.repository.UserRepository;
 import com.bettorleague.authentication.service.UserService;
+import com.bettorleague.microservice.model.exception.BadRequestException;
+import com.bettorleague.microservice.model.exception.registration.EmailException;
+import com.bettorleague.microservice.model.exception.registration.UsernameException;
+import com.bettorleague.microservice.model.security.UserCreationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,14 +30,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User create(User user) {
-        Optional<User> userOptional = userRepository.findById(user.getUsername());
+    public User create(UserCreationRequest userCreationRequest) {
+        log.info("New user creation attempt with email : {} & username {}", userCreationRequest.getEmail(), userCreationRequest.getUsername() );
 
-        userOptional.ifPresent(it-> {
-            throw new IllegalArgumentException("User already exists: " + it.getUsername());
+        User user = new User();
+
+        userRepository.findByEmail(userCreationRequest.getEmail()).ifPresent(optionalUser -> {
+            log.error("User creation failed, email already used : " + optionalUser.getEmail());
+            throw new EmailException(optionalUser.getEmail());
         });
 
-        String hash = passwordEncoder.encode(user.getPassword());
+        userRepository.findByUsername(userCreationRequest.getUsername()).ifPresent(optionalUser -> {
+            log.error("User creation failed, username already used : " + optionalUser.getUsername());
+            throw new UsernameException(optionalUser.getUsername());
+        });
+
+        String hash = passwordEncoder.encode(
+                Optional.ofNullable(userCreationRequest.getPassword())
+                        .orElseThrow(() -> new BadRequestException("Password cannot be empty"))
+        );
+
+        user.setUsername(userCreationRequest.getUsername().toLowerCase());
+        user.setEmail(userCreationRequest.getEmail().toLowerCase());
         user.setPassword(hash);
         user.setActivated(true);
         user.setAuthorities(Set.of(Authorities.ROLE_USER));
@@ -47,9 +64,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+    public UserDetails loadUserByUsername(String emailOrUsername) throws UsernameNotFoundException {
+        return userRepository.findByEmailOrUsername(emailOrUsername,emailOrUsername)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with Email : %s or Username : %s not found",emailOrUsername,emailOrUsername)));
     }
 
 }

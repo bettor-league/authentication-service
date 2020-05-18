@@ -1,11 +1,9 @@
 package com.bettorleague.authentication.config;
 
-import com.bettorleague.authentication.domain.EnvSecret;
 import com.bettorleague.authentication.domain.MongoTokenStore;
 import com.bettorleague.authentication.service.ClientService;
 import com.bettorleague.authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -16,14 +14,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    private final String NOOP_PASSWORD_ENCODE = "{noop}";
-    private final TokenStore tokenStore = new InMemoryTokenStore();
     private final UserService userService;
     private final ClientService clientService;
     private final MongoTemplate mongoTemplate;
@@ -71,20 +65,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new MongoTokenStore(mongoTemplate);
     }
 
-    @Bean
-    EnvSecret envSecret(@Value("${bettorleague.admin.username:#{null}}") String username,
-                        @Value("${bettorleague.admin.password:#{null}}") String password,
-                        @Value("${bettorleague.oauth2.client.ui.client-id:#{null}}") String uiClientId,
-                        @Value("${bettorleague.oauth2.client.ui.client-secret:#{null}}") String uiClientSecret,
-                        @Value("${bettorleague.oauth2.client.server.client-id:#{null}}") String serverClientId,
-                        @Value("${bettorleague.oauth2.client.server.client-secret:#{null}}") String serverClientSecret){
-        return EnvSecret.builder()
-                .adminUsername(username)
-                .adminPassword(password)
-                .uiClientId(uiClientId)
-                .uiClientSecret(uiClientSecret)
-                .serverClientId(serverClientId)
-                .serverClientSecret(serverClientSecret)
-                .build();
-    }
 }
