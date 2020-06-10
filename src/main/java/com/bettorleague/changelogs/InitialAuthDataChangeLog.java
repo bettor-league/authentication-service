@@ -23,7 +23,6 @@ public class InitialAuthDataChangeLog {
                                 Environment environment) {
 
         Instant now = Instant.now();
-
         String encodedPassword = Optional.ofNullable(environment.getProperty("bettorleague.admin.username"))
                 .map(passwordEncoder::encode)
                 .orElse(passwordEncoder.encode("admin"));
@@ -37,6 +36,8 @@ public class InitialAuthDataChangeLog {
                 .authorities(Set.of(Authorities.ROLE_USER, Authorities.ROLE_ADMIN))
                 .build();
 
+        admin.setCreatedBy(Optional.ofNullable(environment.getProperty("bettorleague.oauth2.client.server.client-id")).orElse("server"));
+        admin.setLastModifiedBy(Optional.ofNullable(environment.getProperty("bettorleague.oauth2.client.server.client-id")).orElse("server"));
         admin.setCreatedAt(now);
         admin.setLastModified(now);
 

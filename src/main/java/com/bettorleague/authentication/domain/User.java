@@ -11,19 +11,17 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "users")
-public class User extends AuditedEntity implements UserDetails {
+public class User extends AuditedEntity implements UserDetails, OAuth2User {
 
     @Id
     private String id;
@@ -65,6 +63,11 @@ public class User extends AuditedEntity implements UserDetails {
     }
 
     @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -98,4 +101,8 @@ public class User extends AuditedEntity implements UserDetails {
         return Objects.hash(id);
     }
 
+    @Override
+    public String getName() {
+        return username;
+    }
 }

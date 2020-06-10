@@ -33,8 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -48,11 +47,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    //Prevent missing ClientRegistrationRepository bean
+
     @Bean
     @ConditionalOnExpression("'${security.oauth2.client.client-id}' != 'bettor-league-server'")
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(List.of(CommonOAuth2Provider.GOOGLE.getBuilder("empty").registrationId("empty").clientId("empty").clientSecret("empty").build()));
     }
+
 
 }
