@@ -24,8 +24,4 @@ jobs:
       - name: Build with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          echo "<settings><servers><server><id>github</id><username>cnadjim</username><password>${GITHUB_TOKEN}</password></server></servers>" > ~/.m2/settings.xml
-          echo "<activeProfiles><activeProfile>github</activeProfile></activeProfiles>" > ~/.m2/settings.xml
-          echo "<profile><id>github</id><repositories><repository><id>central</id><url>https://repo1.maven.org/maven2</url><releases><enabled>true</enabled></releases><snapshots><enabled>true</enabled></snapshots></repository><repository><id>github</id><name>GitHub OWNER Apache Maven Packages</name><url>https://maven.pkg.github.com/bettor-league/bettor-league-sdk</url></repository></repositories></profile></profiles></settings>" > ~/.m2/settings.xml
-          mvn clean install
+        run: mvn --settings settings.xml clean install
