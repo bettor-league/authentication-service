@@ -16,7 +16,5 @@ jobs:
       - run: mvn -v
       - name: Build with Maven
         env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          echo "<settings><servers><server><id>github</id><username>cnadjim</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-          mvn clean install
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        run: mvn clean install
