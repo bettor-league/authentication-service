@@ -3,86 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>authentication-service</artifactId>
+	<groupId>com.bettorleague</groupId>
 	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>authentication-service</name>
-	<description>Demo project for Spring Boot</description>
 
-	<parent>
-		<groupId>com.bettorleague</groupId>
-		<artifactId>sdk</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath/>
-	</parent>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>22.0</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.bettorleague</groupId>
-			<artifactId>microservice-common</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.bettorleague</groupId>
-			<artifactId>microservice-mongo</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.bettorleague</groupId>
-			<artifactId>microservice-swagger</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.bettorleague</groupId>
-			<artifactId>microservice-model</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-jose</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>2.2.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-	</dependencies>
-
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
+	<modules>
+		<module>authentication-core</module>
+		<module>authentication-api</module>
+	</modules>
 
 </project>

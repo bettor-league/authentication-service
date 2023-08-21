@@ -1,0 +1,14 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    name: "authentication-service.yml"
+    import: "optional:configserver:http://localhost:1000"
+  application:
+    name: authentication-service
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: "optional:configserver:http://configuration-service:1000"
