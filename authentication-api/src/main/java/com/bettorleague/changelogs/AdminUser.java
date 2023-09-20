@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
 @RequiredArgsConstructor
@@ -32,8 +33,10 @@ public class AdminUser {
         final String encodedPassword = ofNullable(environment.getProperty(ADMIN_USER_PASSWORD))
                 .map(passwordEncoder::encode)
                 .orElseThrow();
+        final String id = UUID.randomUUID().toString();
 
         final User admin = User.builder()
+                .id(id)
                 .email(email)
                 .password(encodedPassword)
                 .activated(true)

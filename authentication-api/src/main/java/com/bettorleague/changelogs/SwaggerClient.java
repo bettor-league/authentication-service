@@ -18,17 +18,17 @@ import static java.util.Optional.ofNullable;
 import static org.springframework.security.oauth2.core.AuthorizationGrantType.*;
 
 @RequiredArgsConstructor
-@ChangeUnit(id = "swagger-client", order = "003", author = ServerClient.AUTHOR)
+@ChangeUnit(id = "swagger-client", order = "003", author = SwaggerClient.AUTHOR)
 public class SwaggerClient {
     public static final String AUTHOR = "Nadjim Chabane";
-    public static final String CLIENT_ID = "bettor-league.client.swagger.client-id";
-    public static final String CLIENT_SECRET = "bettor-league.client.swagger.client-secret";
+    public static final String CLIENT_ID = "bettor-league.client.swagger.id";
+    public static final String CLIENT_SECRET = "bettor-league.client.swagger.secret";
     private final PasswordEncoder passwordEncoder;
     private final MongoTemplate mongoTemplate;
     private final Environment environment;
 
     @Execution
-    public void insertServerClient() {
+    public void insertSwaggerClient() {
         final String clientId = ofNullable(environment.getProperty(CLIENT_ID))
                 .orElseThrow();
         final String clientSecret = ofNullable(environment.getProperty(CLIENT_SECRET))

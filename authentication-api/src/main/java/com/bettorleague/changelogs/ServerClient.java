@@ -20,10 +20,9 @@ import static java.util.Optional.ofNullable;
 @ChangeUnit(id = "server-client", order = "002", author = ServerClient.AUTHOR)
 public class ServerClient {
     public static final String AUTHOR = "Nadjim Chabane";
-    public static final String CLIENT_ID = "bettor-league.client.server.client-id";
-    public static final String CLIENT_SECRET = "bettor-league.client.server.client-secret";
+    public static final String CLIENT_ID = "bettor-league.client.server.id";
+    public static final String CLIENT_SECRET = "bettor-league.client.server.secret";
     public static final String CLIENT_SCOPE = "bettor-league.client.server.scope";
-
     private final PasswordEncoder passwordEncoder;
     private final MongoTemplate mongoTemplate;
     private final Environment environment;

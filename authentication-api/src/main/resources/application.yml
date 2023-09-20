@@ -1,8 +1,10 @@
 spring:
+  cloud:
+    config:
+      name: authentication-service, mongo-service, kafka-service
   main:
     allow-bean-definition-overriding: true
   config:
-    name: "authentication-service.yml"
     import: "optional:configserver:http://localhost:1000"
   application:
     name: authentication-service

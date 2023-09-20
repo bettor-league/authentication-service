@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -31,15 +32,18 @@ import java.util.stream.StreamSupport;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Override
     public User save(User user) {
+        final String password = user.getPassword();
+        final String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
 
-    public void delete(User user) {
+    public void deleteUser(User user) {
         userRepository.delete(user);
     }
 
@@ -50,15 +54,19 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public List<User> findAll() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        final Iterable<User> userIterable = userRepository.findAll();
+        return StreamSupport.stream(userIterable.spliterator(), false).collect(Collectors.toList());
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
-
     }
 
+    @Override
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmailIgnoreCase(email);
+    }
     @Override
     public Optional<User> findById(String id) {
         return userRepository.findById(id);

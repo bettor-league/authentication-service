@@ -255,8 +255,10 @@ under the License.
                 </repository>
                 <repository>
                     <id>github</id>
-                    <name>GitHub OWNER Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/bettor-league/bettor-league-sdk</url>
+                    <name>GitHub Packages</name>
+                    <url>https://maven.pkg.github.com/bettor-league/packages</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
                 </repository>
             </repositories>
         </profile>

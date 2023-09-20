@@ -1,12 +1,12 @@
 package com.bettorleague.authentication.api.rest.command;
 
 
-import com.bettorleague.authentication.core.command.RegisterUserCommand;
-import com.bettorleague.authentication.core.command.RemoveUserCommand;
+import com.bettorleague.authentication.core.command.RegisterUser;
+import com.bettorleague.authentication.core.command.RemoveUser;
 import com.bettorleague.authentication.core.request.UserCreationRequest;
 import com.bettorleague.authentication.core.response.MessageResponse;
 import com.bettorleague.authentication.core.response.UserCreationResponse;
-import com.bettorleague.microservice.cqrs.infrastructure.CommandDispatcher;
+import com.bettorleague.microservice.cqrs.dispatacher.CommandDispatcher;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -23,12 +23,13 @@ import java.util.UUID;
 public class UserCommandController {
 
     private final CommandDispatcher commandDispatcher;
+
     @PostMapping
     @Operation(security = @SecurityRequirement(name = "OAuth2TokenBearer"))
     public ResponseEntity<UserCreationResponse> createUser(@Valid @RequestBody UserCreationRequest request) {
         final String id = UUID.randomUUID().toString();
-        final RegisterUserCommand command = RegisterUserCommand.builder()
-                .id(id)
+        final RegisterUser command = RegisterUser.builder()
+                .aggregateIdentifier(id)
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .build();
@@ -43,8 +44,8 @@ public class UserCommandController {
     @DeleteMapping(path = "/{userId}")
     @Operation(security = @SecurityRequirement(name = "OAuth2TokenBearer"))
     public ResponseEntity<MessageResponse> deleteUser(@PathVariable(value = "userId") String userId) {
-        final RemoveUserCommand command = RemoveUserCommand.builder()
-                .id(userId)
+        final RemoveUser command = RemoveUser.builder()
+                .aggregateIdentifier(userId)
                 .build();
         commandDispatcher.send(command);
         final String message = "User deletion request completed successfully";
@@ -52,7 +53,6 @@ public class UserCommandController {
                 new MessageResponse(message),
                 HttpStatus.OK
         );
-
     }
 
 }

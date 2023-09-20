@@ -4,10 +4,13 @@ import com.bettorleague.authentication.core.model.Authority;
 import com.bettorleague.authentication.core.model.Client;
 import com.bettorleague.authentication.api.repository.ClientRepository;
 import com.bettorleague.authentication.api.service.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,5 +71,15 @@ public class ClientServiceImpl implements ClientService {
                 .scopes(registeredClient.getScopes().stream().map(Authority::valueOf).collect(Collectors.toSet()))
                 .redirectUris(registeredClient.getRedirectUris())
                 .build();
+    }
+
+    @Override
+    public Page<Client> findAll(Pageable pageable) {
+        return clientRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Client> findByIdentifier(String id) {
+        return clientRepository.findById(id);
     }
 }

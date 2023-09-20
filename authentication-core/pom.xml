@@ -55,7 +55,6 @@
         <dependency>
             <groupId>com.bettorleague</groupId>
             <artifactId>microservice-cqrs</artifactId>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>

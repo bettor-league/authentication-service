@@ -21,4 +21,9 @@ public interface UserService extends UserDetailsService, OAuth2UserService<OAuth
     User save(User user);
 
     void deleteById(String userId);
+
+    void deleteUser(User user);
+
+    boolean existsByEmail(String email);
+
 }

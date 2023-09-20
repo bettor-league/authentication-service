@@ -27,8 +27,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.bettorleague</groupId>
+            <artifactId>microservice-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -89,6 +89,10 @@
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <version>2.2.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bettorleague</groupId>
+            <artifactId>microservice-security</artifactId>
         </dependency>
 
     </dependencies>

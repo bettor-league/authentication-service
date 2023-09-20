@@ -20,8 +20,8 @@ import static org.springframework.security.oauth2.core.AuthorizationGrantType.*;
 @ChangeUnit(id = "user-interface-client", order = "004", author = ServerClient.AUTHOR)
 public class UserInterfaceClient {
     public static final String AUTHOR = "Nadjim Chabane";
-    public static final String CLIENT_ID = "bettor-league.client.ui.client-id";
-    public static final String CLIENT_SECRET = "bettor-league.client.ui.client-secret";
+    public static final String CLIENT_ID = "bettor-league.client.ui.id";
+    public static final String CLIENT_SECRET = "bettor-league.client.ui.secret";
     private final PasswordEncoder passwordEncoder;
     private final MongoTemplate mongoTemplate;
     private final Environment environment;
