@@ -2,6 +2,7 @@ package com.bettorleague.authentication.api.infrastructure;
 
 import com.bettorleague.authentication.api.service.UserService;
 import com.bettorleague.authentication.core.event.UserRegistered;
+import com.bettorleague.authentication.core.event.UserRemoved;
 import com.bettorleague.authentication.core.model.Authority;
 import com.bettorleague.authentication.core.model.User;
 import com.bettorleague.microservice.cqrs.annotations.HandleEvent;
@@ -29,6 +30,12 @@ public class UserEventHandler {
                 .authorities(Set.of(Authority.USER))
                 .build();
         userService.save(user);
+    }
+
+    @HandleEvent
+    public void handle(UserRemoved event) {
+        final String userIdentifier = event.getAggregateIdentifier();
+        userService.deleteById(userIdentifier);
     }
 
 }

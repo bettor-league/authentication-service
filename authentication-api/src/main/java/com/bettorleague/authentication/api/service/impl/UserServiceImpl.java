@@ -67,6 +67,12 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public boolean existsByEmail(String email){
         return userRepository.existsByEmailIgnoreCase(email);
     }
+
+    @Override
+    public boolean existsByIdentifier(String userIdentifier) {
+        return userRepository.existsById(userIdentifier);
+    }
+
     @Override
     public Optional<User> findById(String id) {
         return userRepository.findById(id);

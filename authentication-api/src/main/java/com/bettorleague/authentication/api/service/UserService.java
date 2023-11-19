@@ -26,4 +26,6 @@ public interface UserService extends UserDetailsService, OAuth2UserService<OAuth
 
     boolean existsByEmail(String email);
 
+    boolean existsByIdentifier(String userIdentifier);
+
 }
