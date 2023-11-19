@@ -11,4 +11,4 @@ jobs:
     with:
       maven_command: 'deploy'
     secrets:
-      github-token: ${{ secrets.TOKEN }}
+      maven-settings: ${{ secrets.MAVEN_SETTINGS }}
