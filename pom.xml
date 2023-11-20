@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>authentication-service</artifactId>
-	<groupId>com.bettorleague</groupId>
-	<version>1.0</version>
-	<packaging>pom</packaging>
-	<name>authentication-service</name>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<properties>
-		<java.version>17</java.version>
-	</properties>
+    <name>authentication-service</name>
+    <groupId>com.bettorleague</groupId>
+    <artifactId>authentication-service</artifactId>
+    <version>1.0</version>
 
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/bettor-league/authentication-service</url>
-		</repository>
-	</distributionManagement>
+    <packaging>pom</packaging>
 
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<modules>
-				<module>authentication-core</module>
-			</modules>
-		</profile>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
 
-		<profile>
-			<id>services</id>
-			<modules>
-				<module>authentication-core</module>
-				<module>authentication-api</module>
-			</modules>
-		</profile>
-	</profiles>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/bettor-league/authentication-service</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>authentication-core</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>services</id>
+            <modules>
+                <module>authentication-core</module>
+                <module>authentication-api</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

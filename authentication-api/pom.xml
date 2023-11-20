@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.bettorleague</groupId>
         <artifactId>bettor-league-sdk</artifactId>
-        <version>1.0-20231120-130557-SHAdfe5164</version>
+        <version>1.0-20231120-192420-SHA4825eb0</version>
         <relativePath/>
     </parent>
 
