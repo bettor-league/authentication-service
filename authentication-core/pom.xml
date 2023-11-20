@@ -10,9 +10,9 @@
 
     <parent>
         <groupId>com.bettorleague</groupId>
-        <artifactId>bettor-league-sdk</artifactId>
-        <version>1.0-20231120-192420-SHA4825eb0</version>
-        <relativePath/>
+        <artifactId>authentication-service</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <properties>
