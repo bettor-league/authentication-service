@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.bettorleague</groupId>
         <artifactId>bettor-league-sdk</artifactId>
-        <version>1.0-20231120-192420-SHA4825eb0</version>
+        <version>1.0-20231127-143041-RELEASE-SHAe466a70</version>
         <relativePath/>
     </parent>
 
@@ -37,9 +37,8 @@
                 <module>authentication-core</module>
             </modules>
         </profile>
-
         <profile>
-            <id>services</id>
+            <id>build-all</id>
             <modules>
                 <module>authentication-core</module>
                 <module>authentication-api</module>

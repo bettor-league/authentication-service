@@ -8,9 +8,10 @@ on:
       - '!gh-pages'
 
 jobs:
-  build-sdk:
-    uses: bettor-league/reusable-workflow/.github/workflows/java-maven-ci.yml@master
+  build-authentication-api:
+    uses: bettor-league/reusable-workflow/.github/workflows/java-project.yml@master
     with:
+      maven_module_name: 'authentication-api'
       maven_command: 'clean install'
-      maven_profiles: 'services'
+      upload_artifact: true
     secrets: inherit

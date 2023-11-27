@@ -29,30 +29,14 @@
 
         <dependency>
             <groupId>com.bettorleague</groupId>
-            <artifactId>microservice-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <artifactId>authentication-core</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.bettorleague</groupId>
-            <artifactId>authentication-core</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
+            <artifactId>microservice-security</artifactId>
         </dependency>
 
         <dependency>
@@ -86,14 +70,32 @@
         </dependency>
 
         <dependency>
+            <groupId>com.bettorleague</groupId>
+            <artifactId>microservice-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <version>2.2.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.bettorleague</groupId>
-            <artifactId>microservice-security</artifactId>
         </dependency>
 
     </dependencies>
